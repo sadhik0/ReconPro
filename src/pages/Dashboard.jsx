@@ -1,6 +1,8 @@
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
+import UploadCard from "../components/UploadCard";
+import { readExcel } from "../services/excelReader";
 
 function Dashboard() {
   return (
@@ -49,11 +51,33 @@ function Dashboard() {
 
 </div>
 
+</div>
+
+<div className="grid grid-cols-2 gap-6 mt-10">
+
+  <UploadCard
+    title="Company Ledger"
+    onFileSelect={readExcel}
+  />
+
+  <UploadCard
+    title="Bank Statement / GST File"
+    onFileSelect={readExcel}
+  />
+
+</div>
+
+<div className="mt-8">
+
+  <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold">
+    Compare Files
+  </button>
+
+</div>
+
         </div>
 
       </div>
-
-    </div>
   );
 }
 
