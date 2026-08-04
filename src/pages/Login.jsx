@@ -1,66 +1,16 @@
 function Login() {
   return (
-    <div
-      style={{
-        height: "100vh",
-        background: "#0f172a",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        color: "white",
-        fontFamily: "Arial",
-      }}
-    >
-      <div
-        style={{
-          background: "#1e293b",
-          padding: "40px",
-          borderRadius: "15px",
-          width: "350px",
-          textAlign: "center",
-        }}
-      >
-        <h1>ReconPro</h1>
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-96">
+        <h1 className="text-4xl font-bold text-blue-600">
+          ReconPro
+        </h1>
 
-        <p>Financial Reconciliation Platform</p>
+        <p className="mt-2 text-gray-600">
+          Financial Reconciliation Platform
+        </p>
 
-        <input
-          type="email"
-          placeholder="Email"
-          style={{
-            width: "90%",
-            padding: "12px",
-            marginTop: "20px",
-            borderRadius: "8px",
-          }}
-        />
-
-        <br />
-
-        <input
-          type="password"
-          placeholder="Password"
-          style={{
-            width: "90%",
-            padding: "12px",
-            marginTop: "15px",
-            borderRadius: "8px",
-          }}
-        />
-
-        <br />
-
-        <button
-          style={{
-            marginTop: "20px",
-            padding: "12px 25px",
-            background: "#2563eb",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-          }}
-        >
+        <button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
           Login
         </button>
       </div>
