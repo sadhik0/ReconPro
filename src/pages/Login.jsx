@@ -1,23 +1,60 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { loginUser } from "../services/authService";
 
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  console.log("LOGIN FUNCTION:", login);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Temporary Login
-    if (email.trim() && password.trim()) {
-      login();
-      navigate("/dashboard");
-    } else {
-      alert("Enter Email and Password");
+    if (!email || !password) {
+      alert("Please enter Email and Password");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const data = await loginUser({
+  email,
+  password,
+});
+
+console.log("API Response:", data);
+
+console.log("Before login()");
+
+login(data);
+
+console.log("After login()");
+
+console.log(
+  "Token after login:",
+  localStorage.getItem("token")
+);
+
+console.log(
+  "User after login:",
+  localStorage.getItem("user")
+);
+
+navigate("/dashboard");
+
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Login Failed"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,7 +86,7 @@ function Login() {
             className="w-full border rounded-lg p-3 mt-2 mb-5"
             placeholder="Enter Email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
 
           <label className="font-medium">
@@ -61,17 +98,14 @@ function Login() {
             className="w-full border rounded-lg p-3 mt-2"
             placeholder="Enter Password"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <div className="flex justify-between items-center mt-5">
 
             <label className="flex items-center gap-2 text-sm">
-
               <input type="checkbox" />
-
               Remember Me
-
             </label>
 
             <Link
@@ -84,9 +118,11 @@ function Login() {
           </div>
 
           <button
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-3 mt-6 font-semibold"
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-3 mt-6 font-semibold disabled:bg-gray-400"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
 
         </form>

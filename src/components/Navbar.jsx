@@ -1,69 +1,44 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
 
   const navigate = useNavigate();
 
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+
+    logout();
+
+    navigate("/");
+
+  };
+
   return (
 
-    <div className="h-20 bg-white border-b shadow-sm flex items-center justify-between px-10">
+    <div className="h-20 bg-white shadow flex items-center justify-between px-10">
 
-      <div>
+      <h2 className="text-2xl font-bold">
 
-        <h2 className="text-2xl font-bold">
+        Dashboard
 
-          Dashboard
-
-        </h2>
-
-        <p className="text-gray-500 text-sm">
-
-          Welcome back to ReconPro
-
-        </p>
-
-      </div>
+      </h2>
 
       <div className="flex items-center gap-6">
 
-        <button
-          onClick={() => navigate("/upload")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition"
-        >
-          + New Reconciliation
-        </button>
+        <div className="font-semibold">
 
-        <button className="text-2xl">
-
-          🔔
-
-        </button>
-
-        <div className="flex items-center gap-3">
-
-          <div className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
-
-            S
-
-          </div>
-
-          <div>
-
-            <p className="font-semibold">
-
-              Sadhik Salim
-
-            </p>
-
-            <p className="text-xs text-gray-500">
-
-              Administrator
-
-            </p>
-
-          </div>
+          👤 {user?.name}
 
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg"
+        >
+          Logout
+        </button>
 
       </div>
 

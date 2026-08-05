@@ -3,14 +3,15 @@ import { useAuth } from "../context/AuthContext";
 
 function ProtectedRoute({ children }) {
 
-  const { isLoggedIn } = useAuth();
+  const { user } = useAuth();
 
-  if (!isLoggedIn) {
+  const token = localStorage.getItem("token");
+
+  if (!user || !token) {
     return <Navigate to="/" replace />;
   }
 
   return children;
-
 }
 
 export default ProtectedRoute;
