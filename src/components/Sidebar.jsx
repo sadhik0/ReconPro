@@ -1,77 +1,106 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const menu = [
+  const menus = [
+
     {
       name: "Dashboard",
       icon: "📊",
       path: "/dashboard",
     },
+
     {
       name: "Reconciliation",
       icon: "📁",
       path: "/upload",
     },
+
+    {
+      name: "History",
+      icon: "📜",
+      path: "/history",
+    },
+
     {
       name: "Reports",
-      icon: "📄",
+      icon: "📈",
       path: "/reports",
     },
+
+    {
+      name: "Profile",
+      icon: "👤",
+      path: "/profile",
+    },
+
     {
       name: "Settings",
       icon: "⚙",
       path: "/settings",
     },
+
   ];
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
   return (
-    <div className="w-64 h-screen bg-slate-900 text-white fixed left-0 top-0 flex flex-col">
+
+    <div className="w-64 h-screen bg-slate-900 text-white fixed left-0 top-0 shadow-lg">
 
       <div className="text-3xl font-bold text-center py-8 border-b border-slate-700">
+
         ReconPro
+
       </div>
 
-      <nav className="mt-6 flex-1">
+      <nav className="mt-6">
 
-        {menu.map((item) => (
+        {menus.map((menu) => (
 
-          <Link
-            key={item.path}
-            to={item.path}
-            className={`block px-8 py-4 transition
-
-            ${
-              location.pathname === item.path
-                ? "bg-blue-600"
-                : "hover:bg-slate-800"
-            }`}
+          <NavLink
+            key={menu.name}
+            to={menu.path}
+            className={({ isActive }) =>
+              `flex items-center gap-4 px-8 py-4 transition
+              ${
+                isActive
+                  ? "bg-blue-600"
+                  : "hover:bg-slate-800"
+              }`
+            }
           >
-            {item.icon} {item.name}
-          </Link>
+
+            <span className="text-xl">
+
+              {menu.icon}
+
+            </span>
+
+            <span>
+
+              {menu.name}
+
+            </span>
+
+          </NavLink>
 
         ))}
 
       </nav>
 
-      <button
-        onClick={handleLogout}
-        className="m-4 bg-red-600 hover:bg-red-700 rounded-lg py-3"
-      >
-        🚪 Logout
-      </button>
+      <div className="absolute bottom-8 left-0 w-full px-6">
+
+        <button
+          className="w-full bg-red-600 hover:bg-red-700 py-3 rounded-lg font-semibold transition"
+        >
+          Logout
+        </button>
+
+      </div>
 
     </div>
+
   );
+
 }
 
 export default Sidebar;

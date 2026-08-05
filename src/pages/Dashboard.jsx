@@ -2,7 +2,6 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 
 import DashboardCard from "../components/DashboardCard";
-import DashboardChart from "../components/DashboardChart";
 import RecentActivity from "../components/RecentActivity";
 import QuickActions from "../components/QuickActions";
 
@@ -35,34 +34,36 @@ function Dashboard() {
           <div className="grid grid-cols-4 gap-6">
 
             <DashboardCard
-              title="Total Uploads"
-              value="18"
-              color="text-blue-600"
-            />
+            title="Total Uploads"
+            value="18"
+            color="text-blue-600"
+            icon="📁"
+            change="12% This Month"
+          />
 
-            <DashboardCard
-              title="Records"
-              value="25,482"
-              color="text-green-600"
-            />
+          <DashboardCard
+            title="Records"
+            value="25,482"
+            color="text-green-600"
+            icon="📊"
+            change="8% This Month"
+          />
 
-            <DashboardCard
-              title="Match %"
-              value="96%"
-              color="text-yellow-500"
-            />
+          <DashboardCard
+            title="Average Match"
+            value="96%"
+            color="text-yellow-500"
+            icon="✅"
+            change="3% Improvement"
+          />
 
-            <DashboardCard
-              title="Needs Review"
-              value="214"
-              color="text-red-600"
-            />
-
-          </div>
-
-          <div className="mt-8">
-
-            <DashboardChart />
+          <DashboardCard
+            title="Needs Review"
+            value="214"
+            color="text-red-600"
+            icon="⚠️"
+            change="15 Pending"
+          />
 
           </div>
 

@@ -11,6 +11,7 @@ import ExportButtons from "../components/ExportButtons";
 import { readExcel } from "../services/excelReader";
 import { getColumns } from "../utils/columnMapper";
 import { analyze } from "../services/analysisEngine";
+import { saveHistory } from "../services/historyService";
 
 function Upload() {
   // Uploaded data
@@ -78,6 +79,31 @@ function Upload() {
     );
 
     setAnalysis(result);
+    saveHistory({
+  id: Date.now(),
+
+  file:
+    "Reconciliation " +
+    new Date().toLocaleString(),
+
+  module: "GST Reconciliation",
+
+  date: new Date().toLocaleDateString(),
+
+  records: result.length,
+
+  match:
+    (
+      result.reduce(
+        (sum, item) => sum + item.score,
+        0
+      ) / result.length
+    ).toFixed(1) + "%",
+
+  status: "Completed",
+
+  analysis: result,
+});
   };
 
   // -----------------------------

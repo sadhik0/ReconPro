@@ -1,45 +1,76 @@
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
 
-  const location = useLocation();
-
-  const pageName = {
-    "/dashboard": "Dashboard",
-    "/upload": "Reconciliation",
-    "/reports": "Reports",
-    "/settings": "Settings",
-  };
+  const navigate = useNavigate();
 
   return (
-    <div className="h-20 bg-white shadow flex justify-between items-center px-10">
 
-      <h2 className="text-2xl font-bold">
-        {pageName[location.pathname] || "ReconPro"}
-      </h2>
+    <div className="h-20 bg-white border-b shadow-sm flex items-center justify-between px-10">
 
-      <div className="flex items-center gap-3">
+      <div>
 
-        <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
-          S
-        </div>
+        <h2 className="text-2xl font-bold">
 
-        <div>
+          Dashboard
 
-          <h3 className="font-semibold">
-            Sadhik Salim
-          </h3>
+        </h2>
 
-          <p className="text-gray-500 text-sm">
-            Administrator
-          </p>
+        <p className="text-gray-500 text-sm">
+
+          Welcome back to ReconPro
+
+        </p>
+
+      </div>
+
+      <div className="flex items-center gap-6">
+
+        <button
+          onClick={() => navigate("/upload")}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition"
+        >
+          + New Reconciliation
+        </button>
+
+        <button className="text-2xl">
+
+          🔔
+
+        </button>
+
+        <div className="flex items-center gap-3">
+
+          <div className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">
+
+            S
+
+          </div>
+
+          <div>
+
+            <p className="font-semibold">
+
+              Sadhik Salim
+
+            </p>
+
+            <p className="text-xs text-gray-500">
+
+              Administrator
+
+            </p>
+
+          </div>
 
         </div>
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default Navbar;

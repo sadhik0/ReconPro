@@ -14,6 +14,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 
 import Dashboard from "./pages/Dashboard";
 import Upload from "./pages/Upload";
+import History from "./pages/History";
+import HistoryView from "./pages/HistoryView";
 
 function App() {
 
@@ -58,6 +60,22 @@ function App() {
             }
           />
 
+          <Route
+          path="/history"
+          element={
+           <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+           }
+          />
+        <Route
+          path="/history/:id"
+          element={
+            <ProtectedRoute>
+              <HistoryView />
+            </ProtectedRoute>
+          }
+        />
         </Routes>
 
       </BrowserRouter>

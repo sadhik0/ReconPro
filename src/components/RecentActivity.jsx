@@ -1,66 +1,97 @@
+import { useNavigate } from "react-router-dom";
+
 function RecentActivity() {
 
-  const data = [
+  const navigate = useNavigate();
 
+  const history = [
     {
-      file: "July GST",
+      file: "GST July",
       records: 1248,
-      match: "96%"
+      match: "98%",
+      date: "04 Aug",
     },
-
     {
-      file: "August GST",
-      records: 2134,
-      match: "92%"
-    }
-
+      file: "Bank August",
+      records: 2215,
+      match: "95%",
+      date: "03 Aug",
+    },
+    {
+      file: "Vendor Ledger",
+      records: 918,
+      match: "91%",
+      date: "01 Aug",
+    },
   ];
 
   return (
 
     <div className="bg-white rounded-xl shadow p-6">
 
-      <h2 className="text-xl font-semibold mb-5">
+      <div className="flex justify-between items-center mb-6">
 
-        Recent Reconciliations
+        <h2 className="text-xl font-bold">
 
-      </h2>
+          Recent Reconciliations
 
-      <table className="w-full">
+        </h2>
 
-        <thead>
+        <button
+          onClick={() => navigate("/history")}
+          className="text-blue-600 font-semibold"
+        >
+          View All →
+        </button>
 
-          <tr>
+      </div>
 
-            <th className="text-left p-2">File</th>
+      {history.map((item, index) => (
 
-            <th className="text-left p-2">Records</th>
+        <div
+          key={index}
+          className="border rounded-lg p-4 mb-4 hover:bg-gray-50 transition"
+        >
 
-            <th className="text-left p-2">Match</th>
+          <div className="flex justify-between">
 
-          </tr>
+            <div>
 
-        </thead>
+              <h3 className="font-semibold text-lg">
 
-        <tbody>
+                {item.file}
 
-          {data.map((item, index)=>(
+              </h3>
 
-            <tr key={index}>
+              <p className="text-gray-500">
 
-              <td className="p-2">{item.file}</td>
+                {item.records} Records
 
-              <td className="p-2">{item.records}</td>
+              </p>
 
-              <td className="p-2">{item.match}</td>
+            </div>
 
-            </tr>
+            <div className="text-right">
 
-          ))}
+              <p className="font-bold text-green-600">
 
-        </tbody>
+                {item.match}
 
-      </table>
+              </p>
+
+              <p className="text-gray-500">
+
+                {item.date}
+
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      ))}
 
     </div>
 
