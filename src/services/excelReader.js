@@ -1,24 +1,38 @@
 import * as XLSX from "xlsx";
 
-export function readExcel(file) {
+export function readExcel(file, callback) {
   const reader = new FileReader();
 
-  reader.onload = (event) => {
+  reader.onload = (e) => {
+    const workbook = XLSX.read(e.target.result, { type: "binary" });
 
-    const data = event.target.result;
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-    const workbook = XLSX.read(data, {
-      type: "binary",
+    // Read entire sheet as 2D array
+    const rows = XLSX.utils.sheet_to_json(sheet, {
+      header: 1,
+      defval: "",
     });
 
-    const sheetName = workbook.SheetNames[0];
+    // Detect header row
+    let headerRow = 0;
 
-    const worksheet = workbook.Sheets[sheetName];
+    for (let i = 0; i < rows.length; i++) {
+      const filled = rows[i].filter((cell) => cell !== "").length;
 
-    const json = XLSX.utils.sheet_to_json(worksheet);
+      if (filled >= 5) {
+        headerRow = i;
+        break;
+      }
+    }
 
-    console.log(json);
+    // Convert using detected header
+    const json = XLSX.utils.sheet_to_json(sheet, {
+      range: headerRow,
+      defval: "",
+    });
 
+    callback(json);
   };
 
   reader.readAsBinaryString(file);

@@ -1,19 +1,113 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // Temporary Login
+    if (email.trim() && password.trim()) {
+      login();
+      navigate("/dashboard");
+    } else {
+      alert("Enter Email and Password");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-2xl shadow-2xl w-96">
-        <h1 className="text-4xl font-bold text-blue-600">
-          ReconPro
-        </h1>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
 
-        <p className="mt-2 text-gray-600">
-          Financial Reconciliation Platform
-        </p>
+      <div className="bg-white rounded-2xl shadow-xl w-[420px] p-8">
 
-        <button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg">
-          Login
-        </button>
+        <div className="text-center mb-8">
+
+          <h1 className="text-4xl font-bold text-blue-600">
+            ReconPro
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Sign in to continue
+          </p>
+
+        </div>
+
+        <form onSubmit={handleLogin}>
+
+          <label className="font-medium">
+            Email
+          </label>
+
+          <input
+            type="email"
+            className="w-full border rounded-lg p-3 mt-2 mb-5"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+          />
+
+          <label className="font-medium">
+            Password
+          </label>
+
+          <input
+            type="password"
+            className="w-full border rounded-lg p-3 mt-2"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+          />
+
+          <div className="flex justify-between items-center mt-5">
+
+            <label className="flex items-center gap-2 text-sm">
+
+              <input type="checkbox" />
+
+              Remember Me
+
+            </label>
+
+            <Link
+              to="/forgot-password"
+              className="text-blue-600 text-sm hover:underline"
+            >
+              Forgot Password?
+            </Link>
+
+          </div>
+
+          <button
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-3 mt-6 font-semibold"
+          >
+            Sign In
+          </button>
+
+        </form>
+
+        <div className="text-center mt-8">
+
+          <span className="text-gray-500">
+            Don't have an account?
+          </span>
+
+          <Link
+            to="/register"
+            className="text-blue-600 font-semibold ml-2 hover:underline"
+          >
+            Register
+          </Link>
+
+        </div>
+
       </div>
+
     </div>
   );
 }

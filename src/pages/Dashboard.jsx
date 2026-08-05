@@ -1,11 +1,15 @@
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import StatCard from "../components/StatCard";
-import UploadCard from "../components/UploadCard";
-import { readExcel } from "../services/excelReader";
+
+import DashboardCard from "../components/DashboardCard";
+import DashboardChart from "../components/DashboardChart";
+import RecentActivity from "../components/RecentActivity";
+import QuickActions from "../components/QuickActions";
 
 function Dashboard() {
+
   return (
+
     <div className="bg-gray-100 min-h-screen">
 
       <Sidebar />
@@ -14,71 +18,74 @@ function Dashboard() {
 
         <Navbar />
 
-        <div className="p-10">
+        <div className="p-8">
 
-          <h1 className="text-4xl font-bold">
-            Welcome to ReconPro
+          <h1 className="text-3xl font-bold">
+
+            Dashboard
+
           </h1>
 
-          <p className="mt-3 text-gray-600">
-            AI-powered Financial Reconciliation Platform
+          <p className="text-gray-500 mb-8">
+
+            Welcome to ReconPro
+
           </p>
-          <div className="grid grid-cols-2 gap-6 mt-10">
 
-  <StatCard
-    title="Matched Entries"
-    value="0"
-    color="border-green-500"
-  />
+          <div className="grid grid-cols-4 gap-6">
 
-  <StatCard
-    title="Missing Entries"
-    value="0"
-    color="border-red-500"
-  />
+            <DashboardCard
+              title="Total Uploads"
+              value="18"
+              color="text-blue-600"
+            />
 
-  <StatCard
-    title="Duplicates"
-    value="0"
-    color="border-yellow-500"
-  />
+            <DashboardCard
+              title="Records"
+              value="25,482"
+              color="text-green-600"
+            />
 
-  <StatCard
-    title="Difference"
-    value="₹0"
-    color="border-blue-500"
-  />
+            <DashboardCard
+              title="Match %"
+              value="96%"
+              color="text-yellow-500"
+            />
 
-</div>
+            <DashboardCard
+              title="Needs Review"
+              value="214"
+              color="text-red-600"
+            />
 
-</div>
+          </div>
 
-<div className="grid grid-cols-2 gap-6 mt-10">
+          <div className="mt-8">
 
-  <UploadCard
-    title="Company Ledger"
-    onFileSelect={readExcel}
-  />
+            <DashboardChart />
 
-  <UploadCard
-    title="Bank Statement / GST File"
-    onFileSelect={readExcel}
-  />
+          </div>
 
-</div>
+          <div className="mt-8">
 
-<div className="mt-8">
+            <RecentActivity />
 
-  <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold">
-    Compare Files
-  </button>
+          </div>
 
-</div>
+          <div className="mt-8">
+
+            <QuickActions />
+
+          </div>
 
         </div>
 
       </div>
+
+    </div>
+
   );
+
 }
 
 export default Dashboard;
