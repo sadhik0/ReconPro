@@ -1,44 +1,59 @@
 const ReconciliationHistory = require("../models/ReconciliationHistory");
 
 exports.getDashboard = async (req, res) => {
+
   try {
 
-    const userId = req.user.id;
-
     const histories = await ReconciliationHistory.find({
-      user: userId,
+      user: req.user.id,
     });
 
-    const dashboard = {
+    const totalUploads = histories.length;
 
-      totalUploads: histories.length,
+    const totalTransactions = histories.reduce(
+      (sum, item) => sum + item.totalTransactions,
+      0
+    );
 
-      totalTransactions: histories.reduce(
-        (sum, item) => sum + item.totalTransactions,
-        0
-      ),
+    const matched = histories.reduce(
+      (sum, item) => sum + item.matched,
+      0
+    );
 
-      matched: histories.reduce(
-        (sum, item) => sum + item.matched,
-        0
-      ),
+    const unmatched = histories.reduce(
+      (sum, item) => sum + item.unmatched,
+      0
+    );
 
-      unmatched: histories.reduce(
-        (sum, item) => sum + item.unmatched,
-        0
-      ),
+    const averageMatch =
+      totalTransactions === 0
+        ? 0
+        : Math.round((matched / totalTransactions) * 100);
 
-    };
+    res.json({
 
-    res.json(dashboard);
+      totalUploads,
 
-  } catch (error) {
+      totalTransactions,
 
-    console.error(error);
+      matched,
+
+      unmatched,
+
+      averageMatch,
+
+    });
+
+  } catch (err) {
+
+    console.error("Dashboard Error:", err);
 
     res.status(500).json({
+
       message: "Failed to load dashboard",
+
     });
 
   }
+
 };
