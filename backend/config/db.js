@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    console.log("MONGO URI JSON:", JSON.stringify(process.env.MONGO_URI));
-
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI, {
+      dbName: "reconpro",
+    });
 
     console.log("✅ MongoDB Connected");
   } catch (error) {
