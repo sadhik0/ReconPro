@@ -7,9 +7,11 @@ const jwt = require("jsonwebtoken");
 // =========================
 exports.register = async (req, res) => {
   try {
+    console.log("===== REGISTER REQUEST =====");
+    console.log(req.body);
+
     const { name, email, password } = req.body;
 
-    // Check if user already exists
     const exists = await User.findOne({ email });
 
     if (exists) {
@@ -18,17 +20,17 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
     });
 
-    res.status(201).json({
+    console.log("User Created:", user.email);
+
+    return res.status(201).json({
       message: "Registration Successful",
       user: {
         id: user._id,
@@ -38,9 +40,16 @@ exports.register = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({
+
+    console.error("========== REGISTER ERROR ==========");
+    console.error(err);
+    console.error(err.stack);
+    console.error("====================================");
+
+    return res.status(500).json({
       message: err.message,
     });
+
   }
 };
 
@@ -49,9 +58,12 @@ exports.register = async (req, res) => {
 // =========================
 exports.login = async (req, res) => {
   try {
+
+    console.log("===== LOGIN REQUEST =====");
+    console.log(req.body);
+
     const { email, password } = req.body;
 
-    // Find user
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -60,11 +72,7 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Compare password
-    const valid = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const valid = await bcrypt.compare(password, user.password);
 
     if (!valid) {
       return res.status(400).json({
@@ -72,7 +80,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Generate JWT
     const token = jwt.sign(
       {
         id: user._id,
@@ -83,7 +90,9 @@ exports.login = async (req, res) => {
       }
     );
 
-    res.json({
+    console.log("Login Success:", user.email);
+
+    return res.json({
       token,
       user: {
         id: user._id,
@@ -93,9 +102,16 @@ exports.login = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({
+
+    console.error("=========== LOGIN ERROR ===========");
+    console.error(err);
+    console.error(err.stack);
+    console.error("===================================");
+
+    return res.status(500).json({
       message: err.message,
     });
+
   }
 };
 
@@ -105,6 +121,8 @@ exports.login = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
 
+    console.log("===== PROFILE REQUEST =====");
+
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
@@ -113,11 +131,18 @@ exports.getProfile = async (req, res) => {
       });
     }
 
-    res.json(user);
+    return res.json(user);
 
   } catch (err) {
-    res.status(500).json({
+
+    console.error("========== PROFILE ERROR ==========");
+    console.error(err);
+    console.error(err.stack);
+    console.error("===================================");
+
+    return res.status(500).json({
       message: err.message,
     });
+
   }
 };
