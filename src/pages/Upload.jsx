@@ -136,7 +136,7 @@ function Upload() {
 
     <div className="min-h-screen bg-gray-100 p-10">
 
- // ----Instructions---
+ 
 
       <h1 className="text-3xl font-bold">
           ReconPro
