@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { deleteHistory } from "../services/historyService";
 
-function HistoryTable({ history }) {
+function HistoryTable({ history, setHistory }) {
 
   const navigate = useNavigate();
 
@@ -15,17 +15,23 @@ function HistoryTable({ history }) {
 
   const handleDelete = async (id) => {
 
-    if (!window.confirm("Delete this reconciliation?")) return;
+    if (!window.confirm("Delete this reconciliation?")) {
+      return;
+    }
 
     try {
 
       await deleteHistory(id);
 
-      window.location.reload();
+      setHistory((prev) =>
+        prev.filter((item) => item._id !== id)
+      );
 
     } catch (err) {
 
-      console.error(err);
+      console.error("Delete Error:", err);
+
+      alert("Failed to delete history.");
 
     }
 
@@ -62,17 +68,17 @@ function HistoryTable({ history }) {
 
             <tr>
 
-              <th className="p-3 text-left">Filename</th>
+              <th className="p-3 text-center">Filename</th>
 
-              <th className="p-3 text-left">Upload Date</th>
+              <th className="p-3 text-center">Upload Date</th>
 
-              <th className="p-3 text-left">Transactions</th>
+              <th className="p-3 text-center">Transactions</th>
 
-              <th className="p-3 text-left">Matched</th>
+              <th className="p-3 text-center">Matched</th>
 
-              <th className="p-3 text-left">Unmatched</th>
+              <th className="p-3 text-center">Unmatched</th>
 
-              <th className="p-3 text-left">Time</th>
+              <th className="p-3 text-center">Time</th>
 
               <th className="p-3 text-center">Actions</th>
 
@@ -91,44 +97,38 @@ function HistoryTable({ history }) {
                   className="border-b hover:bg-gray-50"
                 >
 
-                  <td className="p-4">
+                  <td className="p-4 text-center">
                     {item.filename}
                   </td>
 
-                  <td>
+                  <td className="text-center">
                     {new Date(item.uploadDate).toLocaleString()}
                   </td>
 
-                  <td>
+                  <td className="text-center">
                     {item.totalTransactions}
                   </td>
 
-                  <td className="text-green-600 font-semibold">
+                  <td className="text-center text-green-600 font-semibold">
                     {item.matched}
                   </td>
 
-                  <td className="text-red-600 font-semibold">
+                  <td className="text-center text-red-600 font-semibold">
                     {item.unmatched}
                   </td>
 
-                  <td>
+                  <td className="text-center">
                     {item.processingTime}s
                   </td>
 
-                  <td>
+                  <td className="text-center">
 
-                    <div className="flex justify-center gap-2">
-
-                      <button
-                        onClick={() =>
-                          handleDelete(item._id)
-                        }
-                        className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
-                      >
-                        Delete
-                      </button>
-
-                    </div>
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded"
+                    >
+                      Delete
+                    </button>
 
                   </td>
 
