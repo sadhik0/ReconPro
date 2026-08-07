@@ -1,5 +1,8 @@
 const ReconciliationHistory = require("../models/ReconciliationHistory");
 
+// ==========================
+// Dashboard KPIs
+// ==========================
 exports.getDashboard = async (req, res) => {
 
   try {
@@ -49,9 +52,36 @@ exports.getDashboard = async (req, res) => {
     console.error("Dashboard Error:", err);
 
     res.status(500).json({
-
       message: "Failed to load dashboard",
+    });
 
+  }
+
+};
+
+// ==========================
+// Recent Activity
+// ==========================
+exports.getRecentActivity = async (req, res) => {
+
+  try {
+
+    const history = await ReconciliationHistory.find({
+
+      user: req.user.id,
+
+    })
+      .sort({ uploadDate: -1 })
+      .limit(5);
+
+    res.json(history);
+
+  } catch (err) {
+
+    console.error("Recent Activity Error:", err);
+
+    res.status(500).json({
+      message: "Failed to load recent activity",
     });
 
   }
