@@ -63,23 +63,27 @@ exports.getHistory = async (req, res) => {
 
 
 exports.deleteHistory = async (req, res) => {
-
   try {
+    const deletedHistory =
+      await ReconciliationHistory.findOneAndDelete({
+        _id: req.params.id,
+        user: req.user.id,
+      });
 
-    await ReconciliationHistory.findByIdAndDelete(
-      req.params.id
-    );
+    if (!deletedHistory) {
+      return res.status(404).json({
+        message: "History record not found",
+      });
+    }
 
-    res.json({
+    return res.json({
       message: "Deleted",
     });
-
   } catch (err) {
+    console.error("Delete History Error:", err);
 
-    res.status(500).json({
-      message: err.message,
+    return res.status(500).json({
+      message: "Failed to delete history",
     });
-
   }
-
 };
